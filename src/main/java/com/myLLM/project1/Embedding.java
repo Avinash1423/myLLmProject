@@ -28,7 +28,7 @@ public class Embedding implements CommandLineRunner {
     @Value("classpath:/docs/FULLTEXT01.pdf")
     Resource resource;
 
-    List<Document> docs = List.of(new Document("Test input text for embedding"));
+
 
     @Autowired
     public Embedding( VectorStore vectorStore) {
@@ -39,13 +39,49 @@ public class Embedding implements CommandLineRunner {
     public void run(String... args) throws Exception {
 
         try {
+
+
+
+
+
             var pdfReader = new TikaDocumentReader(resource); //give pdfreader the docx to split to paragraphs
-            System.out.println("give pdfreader the docx to split to paragraphs");
+            System.out.println("give pdfreader the docxs");
+
             TextSplitter textSplitter = new TokenTextSplitter();  //get text splitter
             System.out.println("called test splitter");
-            vectorStore.accept(textSplitter.apply(pdfReader.get()));  // split the pdf and give vector store
+
+            List<Document> chunks=textSplitter.apply(pdfReader.get());
+
+            if(chunks.isEmpty()){
+
+                System.out.println("⚠️ No chunks to ingest—empty document?");
+                return;
+
+            }
+
+            String test=chunks.get(0).getFormattedContent();
+            List<Document> duplicate=vectorStore.similaritySearch(test);
+
+           //duplicate != null
+
+            if(!duplicate.isEmpty()){
+
+                System.out.println("Document already exists in vector store ");//worked
+                return;
+
+            }
+
+else{
+            vectorStore.accept(chunks);  // split the pdf and give vector store
             System.out.println("passed split docs to vector db");
 //            vectorStore.accept(docs);
+
+
+
+}
+
+
+
         } catch (Exception e)
         {
             e.printStackTrace();
