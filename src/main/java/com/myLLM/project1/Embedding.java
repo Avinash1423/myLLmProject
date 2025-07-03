@@ -41,9 +41,6 @@ public class Embedding implements CommandLineRunner {
         try {
 
 
-
-
-
             var pdfReader = new TikaDocumentReader(resource); //give pdfreader the docx to split to paragraphs
             System.out.println("give pdfreader the docxs");
 
