@@ -55,7 +55,7 @@ public class Embedding implements CommandLineRunner {
             if(chunks.isEmpty()){
 
                 System.out.println("⚠️ No chunks to ingest—empty document?");
-                return;
+
 
             }
 
@@ -77,9 +77,7 @@ else{
 //            vectorStore.accept(docs);
 
 
-
 }
-
 
 
         } catch (Exception e)

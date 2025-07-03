@@ -1,0 +1,75 @@
+.container{
+    display:flex;
+    height:100vh;
+}
+
+.sidePanel{
+    flex:0.20;
+    display:flex;
+    background-color:slategrey;
+
+
+}
+.messagePanel{
+    flex:0.80;
+    display:flex;
+    background-color: darkslategrey;
+    flex-direction:column;
+    justify-content: space-between;
+    padding: 1rem;
+
+
+
+}
+
+
+.chatBox{
+
+    display:flex;
+    flex-direction: column;
+    flex:1;
+    overflow-y:auto;
+    padding-bottom: 1rem;
+
+}
+.inputBox {
+    display:flex;
+    justify-content: center;
+    padding-bottom: 1rem ;
+
+
+}
+
+.inputBox textarea {
+
+    background-color:black ;
+    width:800px;
+    height:35px;
+    border-radius:24px;
+    font-size: 1rem;
+    font-family: "Comic Sans MS", serif;
+    color: white;
+
+}
+
+.inputBox button{
+
+    background-color: darkblue;
+    border-radius: 999px;
+    width: 40px;
+    height: 40px;
+    font-size: 1rem;
+
+}
+
+
+.question{
+    font-family: "Comic Sans MS", serif;
+    color:black;
+    font-weight: bold;
+    background-color:lightcyan;
+    border-radius:20px;
+    display:inline-block;
+    padding:1px;
+
+}

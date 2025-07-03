@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link  rel="stylesheet"  th:href="@{/newChat.css}">
+</head>
+<body>
+<div class="container">
+
+    <div class="sidePanel">
+
+    </div>
+
+    <div class="messagePanel">
+
+
+        <div class="chatBox">
+
+            <div class="messageContainer">
+
+                <div th:each="message : ${listOfChatMessages}" >
+
+                    <div class="question" th:text="${message.getQuestion()}">  </div>
+
+                    <div class="answer" th:utext="${message.getAnswer()}">   </div>
+
+                </div>
+
+            </div>
+        </div>
+
+
+        <form class="inputBox" action="/ask" method="post">
+
+            <textarea  name="question" rows="1" oninput="autoGrow(this)"> </textarea>
+
+            <button type="submit">🚀</button>
+
+        </form>
+
+
+    </div>
+
+
+
+</div>
+<script th:src="@{/newChat.js}"></script>
+</body>
+</html>
