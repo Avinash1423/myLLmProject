@@ -34,36 +34,35 @@ import java.util.*;
 public class ChatController {
 
 
-    @Value("classpath:/Prompts/summaryTemp.st")
-    Resource summaryTemp;
-
-    @Value("classpath:/Prompts/explanationTemp.st")
-    Resource explanationTemp;
-
 
     private final ChatClient chatClient;
     List<ChatMessageObject> listOfChatMessages = new ArrayList<>();
 
+    Greeting greeting;
+    ParseAndRender parseAndRender;
+    SummaryMethod summaryMethod;
+    Explain explain;
+
     @Autowired
-    public ChatController(ChatClient chatClient) {
+    public ChatController(ChatClient chatClient,Greeting greeting, ParseAndRender parseAndRender, SummaryMethod summaryMethod, Explain explain) {
 
         this.chatClient = chatClient;
+        this.greeting=greeting;
+        this.parseAndRender=parseAndRender;
+        this.summaryMethod=summaryMethod;
+        this.explain=explain;
     }
 
 
     @GetMapping("/")
     public String showForm(Model model) {
 
+       String greet= greeting.greetingMethod();
 
 
-        String greetingTemp = "Greet the user like exactly  this: Hello , how can i help you?";
-
-        String greeting = chatClient.prompt().system(greetingTemp).call().content();
-
-        model.addAttribute("greeting", greeting);
+        model.addAttribute("greeting", greet);
 
         return "newChat";
-
         // return "chat";
     }
 
@@ -73,11 +72,9 @@ public class ChatController {
 
         if (question == null || question.isBlank() || action == null || action.isBlank()) {
 
-            String greetingTemp = "Greet the user like exactly  this: Hello , how can i help you?";
+            String greet= greeting.greetingMethod();
 
-            String greeting = chatClient.prompt().system(greetingTemp).call().content();
-
-            model.addAttribute("greeting", greeting);
+          model.addAttribute("greeting", greet);
 
             return "newChat";
 
@@ -86,20 +83,12 @@ public class ChatController {
 
             String answer = chatClient.prompt().user(question).call().content();
 
-            // Parse and render
-            Parser parser = Parser.builder().extensions(List.of(TablesExtension.create())).build();
-            Node document = parser.parse(answer);
-            HtmlRenderer htmlRenderer = HtmlRenderer.builder().extensions((List.of(TablesExtension.create()))).build();
-            String parseredAnswer = htmlRenderer.render(document);
+            String  ParsedAnswer =parseAndRender.PrMethod(answer);
 
-
-            // ensure Security
-            String safeHtml = Jsoup.clean(parseredAnswer, Safelist.relaxed());
-
-
-            ChatMessageObject chatMessage = new ChatMessageObject(question, safeHtml);
+           ChatMessageObject chatMessage= new ChatMessageObject(question,ParsedAnswer);
 
             listOfChatMessages.add(chatMessage);
+
             model.addAttribute("listOfChatMessages", listOfChatMessages);
 
             return "newChat";
@@ -107,38 +96,10 @@ public class ChatController {
 
 
         if(action.equals("summarize")){
-            //summary logic**********
-            System.out.println("Inside summarize");
-            SystemPromptTemplate systemPromptTemplate = new SystemPromptTemplate(summaryTemp);
 
-            System.out.println("summary temp is accessed");
-          SystemMessage summaryPrompt= (SystemMessage) systemPromptTemplate.createMessage(Map.of("user-input",question));
+          String summary= summaryMethod.summarize(question);
 
-            System.out.println("mapped user input to question");
-            String promptText=summaryPrompt.getText();
-
-            System.out.println(promptText);
-
-            String summary=chatClient.prompt().system(sys->sys.text(promptText)).call().content();
-
-            //summary logic**********
-
-
-
-            // Parse and render
-            System.out.println("summary parsing" );
-             Parser parser = Parser.builder().extensions(List.of(TablesExtension.create())).build();
-            Node Summarydocument = parser.parse(summary);
-            HtmlRenderer htmlRenderer = HtmlRenderer.builder().extensions((List.of(TablesExtension.create()))).build();
-            String parseredSummary = htmlRenderer.render(Summarydocument);
-
-
-            // ensure Security
-            String SummarysafeHtml = Jsoup.clean(parseredSummary, Safelist.relaxed());
-
-
-            ChatMessageObject chatMessage = new ChatMessageObject(question, SummarysafeHtml);
-
+            ChatMessageObject chatMessage=new ChatMessageObject(question,summary);
             listOfChatMessages.add(chatMessage);
             model.addAttribute("listOfChatMessages", listOfChatMessages);
 
@@ -149,29 +110,9 @@ public class ChatController {
 
         if(action.equals("explain")){
 
-         //explanation logic***
-            SystemPromptTemplate  systemPromptTemplate= new SystemPromptTemplate(explanationTemp);
+        String explanation=explain.explainMethod(question);
 
-            SystemMessage explanationMessage=(SystemMessage)systemPromptTemplate.createMessage(Map.of("user-input",question));
-
-            String explanationPrompt=explanationMessage.getText();
-
-            String explanation=chatClient.prompt().system(sys->sys.text(explanationPrompt)).call().content();
-
-            //explanation logic***
-
-            //parse and render
-
-            Parser parser= Parser.builder().build();
-            Node explanationDocx= parser.parse(explanation);
-            HtmlRenderer renderer=HtmlRenderer.builder().extensions(List.of(TablesExtension.create())).build();
-            String parsedExplanation= renderer.render(explanationDocx);
-
-            //ensure security
-            String safeExplanation=Jsoup.clean(parsedExplanation,Safelist.relaxed());
-
-            ChatMessageObject chatMessageObject= new ChatMessageObject(question,safeExplanation);
-
+            ChatMessageObject chatMessageObject= new ChatMessageObject(question,explanation);
 
             listOfChatMessages.add(chatMessageObject);
             model.addAttribute("listOfChatMessages", listOfChatMessages);
