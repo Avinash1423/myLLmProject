@@ -20,6 +20,11 @@
 
             <div class="messageContainer">
 
+                <div th:if="${greeting}">
+
+                    <div class="question" th:utext="${greeting}">   </div>
+                </div>
+
                 <div th:each="message : ${listOfChatMessages}" >
 
                     <div class="question" th:text="${message.getQuestion()}">  </div>
@@ -36,7 +41,9 @@
 
             <textarea  name="question" rows="1" oninput="autoGrow(this)"> </textarea>
 
-            <button type="submit">🚀</button>
+            <button type="submit" name="action"   value="submit">🚀</button>
+            <button type="submit" name="action"   value="summarize">🧾</button>
+            <button type="submit" name="action"   value="explain">🔍</button>
 
         </form>
 
