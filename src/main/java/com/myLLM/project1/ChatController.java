@@ -34,9 +34,12 @@ import java.util.*;
 public class ChatController {
 
 
-
     private final ChatClient chatClient;
+
+
     List<ChatMessageObject> listOfChatMessages = new ArrayList<>();
+
+
 
     Greeting greeting;
     ParseAndRender parseAndRender;
@@ -58,7 +61,6 @@ public class ChatController {
     public String showForm(Model model) {
 
        String greet= greeting.greetingMethod();
-
 
         model.addAttribute("greeting", greet);
 
@@ -85,7 +87,7 @@ public class ChatController {
 
             String  ParsedAnswer =parseAndRender.PrMethod(answer);
 
-           ChatMessageObject chatMessage= new ChatMessageObject(question,ParsedAnswer);
+            ChatMessageObject chatMessage = new ChatMessageObject(question, ParsedAnswer);
 
             listOfChatMessages.add(chatMessage);
 
@@ -118,9 +120,6 @@ public class ChatController {
             model.addAttribute("listOfChatMessages", listOfChatMessages);
 
             return "newChat";
-
-
-
 
         }
 

@@ -20,7 +20,6 @@ public class Greeting {
     }
 
 
-
     @Value("classpath:/Prompts/greetingTemp.st")
     Resource greetingTemp;
 

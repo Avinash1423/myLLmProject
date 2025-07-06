@@ -39,13 +39,27 @@
 
         <form class="inputBox" action="/ask" method="post">
 
+            <div class="inputRow">
+                <button type="button" onclick="openModal()">🎙️</button>
+
             <textarea  name="question" rows="1" oninput="autoGrow(this)"> </textarea>
 
             <button type="submit" name="action"   value="submit">🚀</button>
             <button type="submit" name="action"   value="summarize">🧾</button>
             <button type="submit" name="action"   value="explain">💡</button>
-
+                </div>
         </form>
+
+         <div  class="audioModal"  id="audioModal">
+
+             <button id="close" class="close" onclick="closeModal()">❎</button>
+
+        <form action="/transcribe" method="post" enctype="multipart/form-data">
+            <input type="file" name="file" accept="audio/*" required>
+            <button type="submit">Transcribe 📝</button>
+        </form>
+
+         </div>
 
 
     </div>
@@ -53,6 +67,23 @@
 
 
 </div>
-<script th:src="@{/newChat.js}"></script>
+
+
+<script th:src="@{/newChat.js}" defer></script>
+
+
+<script>
+    function openModal(){
+
+        document.getElementById("audioModal").style.display="block";
+
+    }
+    function closeModal(){
+
+        document.getElementById("audioModal").style.display="none";
+    }
+</script>
+
+
 </body>
 </html>

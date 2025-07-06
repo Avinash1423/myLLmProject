@@ -29,7 +29,6 @@ public class Embedding implements CommandLineRunner {
     Resource resource;
 
 
-
     @Autowired
     public Embedding( VectorStore vectorStore) {
         this.vectorStore = vectorStore;
@@ -68,7 +67,7 @@ public class Embedding implements CommandLineRunner {
 
             }
 
-else{
+      else{
             vectorStore.accept(chunks);  // split the pdf and give vector store
             System.out.println("passed split docs to vector db");
 //            vectorStore.accept(docs);
