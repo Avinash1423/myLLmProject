@@ -45,15 +45,17 @@ public class ChatController {
     ParseAndRender parseAndRender;
     SummaryMethod summaryMethod;
     Explain explain;
+    WebConnect webConnect;
 
     @Autowired
-    public ChatController(ChatClient chatClient,Greeting greeting, ParseAndRender parseAndRender, SummaryMethod summaryMethod, Explain explain) {
+    public ChatController(ChatClient chatClient,Greeting greeting, ParseAndRender parseAndRender, SummaryMethod summaryMethod, Explain explain,WebConnect webConnect) {
 
         this.chatClient = chatClient;
         this.greeting=greeting;
         this.parseAndRender=parseAndRender;
         this.summaryMethod=summaryMethod;
         this.explain=explain;
+        this.webConnect=webConnect;
     }
 
 
@@ -83,7 +85,7 @@ public class ChatController {
         }
         if (action.equals("submit")) {
 
-            String answer = chatClient.prompt().user(question).call().content();
+            String answer = chatClient.prompt().system("You can search the web and answer,if you do not know the answer to the question.").user(question).tools(webConnect).call().content();
 
             String  ParsedAnswer =parseAndRender.PrMethod(answer);
 
