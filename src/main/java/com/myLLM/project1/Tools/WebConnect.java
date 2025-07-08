@@ -1,14 +1,11 @@
-package com.myLLM.project1;
+package com.myLLM.project1.Tools;
 
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.ai.tool.annotation.Tool;
-import org.springframework.http.HttpEntity;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpMethod;
-import org.springframework.http.ResponseEntity;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.UriUtils;
@@ -19,8 +16,11 @@ import java.nio.charset.StandardCharsets;
 @Component
 public class WebConnect {
 
+
     @Tool(description = "Search the web for teh query and return the top Results")
     public String search(String query) throws JsonProcessingException {
+
+
        System.out.println("query sent to API");//printed
         return callSearchApi(query);
 
@@ -31,7 +31,7 @@ public class WebConnect {
 
 
         try {
-            String apiKey = "7ba996354bb5ab05821616dab59cc880";
+            String apiKey =System.getenv("ScraperAPIKey");
             String encoded = UriUtils.encode(query, StandardCharsets.UTF_8);
             String url = "https://api.scraperapi.com/structured/google/search" +
                     "?api_key=" + apiKey +

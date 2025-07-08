@@ -6,5 +6,6 @@ Here's how I can help:<br>
 <br>
 🚀 Answer your questions<br>
 🧾 Summarize things for you<br>
-💡 Make tricky stuff easy to understand
+💡 Make tricky stuff easy to understand<br>
+🎙️ Convert audio into text for you
 

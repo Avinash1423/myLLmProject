@@ -1,4 +1,4 @@
-package com.myLLM.project1;
+package com.myLLM.project1.Components;
 
 
 import org.slf4j.Logger;

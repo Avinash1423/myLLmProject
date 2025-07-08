@@ -1,5 +1,6 @@
-package com.myLLM.project1;
+package com.myLLM.project1.Prompt;
 
+import com.myLLM.project1.Components.ParseAndRender;
 import org.springframework.ai.chat.client.ChatClient;
 import org.springframework.ai.chat.messages.SystemMessage;
 import org.springframework.ai.chat.prompt.SystemPromptTemplate;

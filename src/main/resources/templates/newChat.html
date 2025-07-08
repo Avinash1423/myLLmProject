@@ -11,7 +11,41 @@
 
     <div class="sidePanel">
 
-    </div>
+          <div class="logoContainer">
+
+              <h2 class="logoText">
+                  <span class="auto">Auto</span><span class="wired">Wired</span><span class="gpt">GPT</span>
+              </h2>
+
+            </div>
+
+
+        <div class="newChatButton">
+
+            <button onclick="window.location.href='/newChatButton'">New Chat</button>
+
+        </div>
+
+
+        <div class="chats">
+
+            <i>Chats</i>
+
+        </div>
+
+
+
+      <div class="sessionPanel">
+
+        <div th:each="chatSession:${listofSessions}">
+
+            <form method="post" action="/loadMessages">
+            <input type="hidden" name="chatId" th:value="${chatSession.chatId}">
+            <button type="submit" th:text="${chatSession.title}"> </button>
+            </form>
+        </div>
+       </div>
+        </div>
 
     <div class="messagePanel">
 
@@ -22,14 +56,14 @@
 
                 <div th:if="${greeting}">
 
-                    <div class="question" th:utext="${greeting}">   </div>
+                    <div class="question" th:utext="${greeting}"></div>
                 </div>
 
                 <div th:each="message : ${listOfChatMessages}" >
 
-                    <div class="question" th:text="${message.getQuestion()}">  </div>
+                    <div class="question" th:text="${message.getQuestion()}"></div>
 
-                    <div class="answer" th:utext="${message.getAnswer()}">   </div>
+                    <div class="answer" th:utext="${message.getAnswer()}"></div>
 
                 </div>
 
@@ -42,7 +76,7 @@
             <div class="inputRow">
                 <button type="button" onclick="openModal()">🎙️</button>
 
-            <textarea  name="question" rows="1" oninput="autoGrow(this)"> </textarea>
+            <textarea  name="question" rows="1" oninput="autoGrow(this)" required></textarea>
 
             <button type="submit" name="action"   value="submit">🚀</button>
             <button type="submit" name="action"   value="summarize">🧾</button>
@@ -66,7 +100,7 @@
 
 
 
-</div>
+</diV>
 
 
 <script th:src="@{/newChat.js}" defer></script>

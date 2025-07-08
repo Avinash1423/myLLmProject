@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Error Page</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
+
+<h1>Something Went Wrong ☹️</h1>
+
+<br>
+<div th:if="${errorMessaeg}"></div>
+
+<h3 th:text="${errorPage}"> </h3>
+
+<button class="btn btn-success" onclick="window.location.href='/errorHome'">Home</button>
+
+</body>
+</html>

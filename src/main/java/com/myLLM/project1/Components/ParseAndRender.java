@@ -1,8 +1,7 @@
-package com.myLLM.project1;
+package com.myLLM.project1.Components;
 import org.commonmark.node.Node;
 import org.commonmark.parser.Parser;
 import org.commonmark.renderer.html.HtmlRenderer;
-import org.commonmark.Extension;
 import org.commonmark.ext.gfm.tables.TablesExtension;
 import org.jsoup.Jsoup;
 import org.jsoup.safety.Safelist;
